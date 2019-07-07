@@ -1,0 +1,15 @@
+{% extends "schedule/base.html" %}
+{% block content %}
+    {% for subject in subjects %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ subject.name }}</a>
+              <small class="text-muted">{{ subject.start_time }}</small>
+            </div>
+            <h2><a class="article-title" href="#">{{ subject.professor }}</a></h2>
+            <p class="article-content">{{ subject.auditorium }}</p>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock %}
