@@ -5,7 +5,7 @@ import django
 
 django.setup()
 
-from schedule.models import ScheduleSubject, ScheduleTime
+from schedule.models import ScheduleSubject, ScheduleTime, Auditorium
 from bs4 import BeautifulSoup as bsoup
 from api.logger import LogMachine as log
 
@@ -34,10 +34,16 @@ def parse_row(cells, day_number):
                     0, 7, 2))
                 if not auditorium or auditorium == 'Каф':
                     raise AttributeError
+                elif not Auditorium.objects.filter(id=auditorium):
+                    building = (auditorium[-1:] if not ("0" <= auditorium[-1:] <= "9") else "")
+                    length = (len(auditorium) if not building else len(auditorium[:-1]))
+                    floor = (int(auditorium[:2] if length == 4 else int(auditorium[:1])))
+                    a = Auditorium(id=auditorium, building=building, floor=floor)
+                    a.save()
 
                 subject = ScheduleSubject.create(_type=_type,
                                                  name=name,
-                                                 auditorium=auditorium,
+                                                 auditorium=Auditorium.objects.get(id=auditorium),
                                                  professor=professor,
                                                  subject_day_index=day_number,
                                                  week_interval=
