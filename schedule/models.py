@@ -10,6 +10,12 @@ class Auditorium(models.Model):
     floor = models.IntegerField()
 
 
+class Day(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=20)
+    name_short = models.CharField(max_length=3)
+
+
 class ScheduleTime(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()

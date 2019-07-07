@@ -5,21 +5,28 @@ import django
 
 django.setup()
 
-from schedule.models import ScheduleSubject, ScheduleTime, Auditorium
+from schedule.models import ScheduleSubject, ScheduleTime, Auditorium, Day
 from bs4 import BeautifulSoup as bsoup
 from api.logger import LogMachine as log
+from api import configs
 
 
-def create_schedule_time(outdir):
+def create_schedule_timetable(outdir):
     with open(outdir + "schedule.html", "r") as page_html:
         soup = bsoup(page_html, "lxml")
-        day = soup.select('div.col-md-6.hidden-xs')[0]
-        for i, row in enumerate((day.contents[1]).findAll('tr')[2:]):
+        days = soup.select('div.col-md-6.hidden-xs')
+        for i, row in enumerate((days[0].contents[1]).findAll('tr')[2:]):
             day_table = (row.contents[1]).contents[0]
             start_time, end_time = map(lambda x: x + ':00', day_table.split(" - "))
             schedule_time = ScheduleTime(id=i, start_time=start_time, end_time=end_time)
             schedule_time.save()
             log.info("%d %s" % (i, day_table))
+
+        for i, day in enumerate(days):
+            name_short = day.contents[1].findAll('tr')[0].contents[1].contents[0].string
+            name = configs.DAY_MAP[name_short]
+            d = Day(id=i, name=name, name_short=name_short)
+            d.save()
 
 
 def parse_row(cells, day_number):
