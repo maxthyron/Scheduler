@@ -1,8 +1,8 @@
 import json
 import sys
 
-from .logger import LogMachine as log
-from api.configs import *
+from api.logger import LogMachine as log
+from api import configs
 
 
 def group_code_formatter(group_url):
@@ -16,7 +16,7 @@ def group_code_formatter(group_url):
 
 def unload_all_groups(soup, outdir):
     all_urls = soup.find_all('a', 'btn btn-sm btn-default text-nowrap')
-    all_urls = all_urls[:3]  # Fixed to speed up the process [DELETE]
+    all_urls = all_urls[:3]  # Fixed to speed up the process [DELETE THIS LINE]
     urls_count = len(all_urls)
 
     mapping = []
@@ -30,7 +30,7 @@ def unload_all_groups(soup, outdir):
                 round((url_id + 1) / urls_count * 100, 2)
                 ))
 
-            url = MAIN_URL + group_url_button['href']
+            url = configs.MAIN_URL + group_url_button['href']
 
             yield (
                 valid_group_code,
@@ -44,5 +44,5 @@ def unload_all_groups(soup, outdir):
         except Exception as ex:
             log.error((ex, url_id, group_url_button))
 
-    with open(outdir + '/mapping.json', 'w', encoding='utf-8') as mapping_file:
+    with open(outdir + configs.URLS_FILE, 'w', encoding='utf-8') as mapping_file:
         mapping_file.write(json.dumps(mapping, ensure_ascii=False))
