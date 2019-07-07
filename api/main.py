@@ -1,6 +1,6 @@
 from api.groups import unload_all_groups
 from api.logger import LogMachine as log
-from api.day import parse_row
+from api.day import parse_row, create_schedule_time
 import json
 import requests
 from api import configs
@@ -56,13 +56,15 @@ def read_json(outdir):
         subjects += get_one_group(group['url'])
     return subjects
 
-
 def main():
+    # create_schedule_time("src/")
     # get_all_groups("/Users/thyron/Desktop/db-course/src/")
     # read_json("/Users/thyron/Desktop/db-course/src/")
-    # read_group_html("/Users/thyron/Desktop/db-course/src/")
-    get_one_group("https://students.bmstu.ru/schedule/62f00e92-a264-11e5-be69-005056960017")
+    subjects = read_group_html("./src/")
+    # get_one_group("https://students.bmstu.ru/schedule/62f00e92-a264-11e5-be69-005056960017")
 
+    for s in subjects:
+        s.save()
     log.info('Done!')
 
 

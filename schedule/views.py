@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from .models import Subject
+from .models import ScheduleSubject
 
 
 def index(request):
-    subjects = Subject.objects.all()
+    subjects = ScheduleSubject.objects.all()
     return render(request, 'schedule/index.html', {'subjects': subjects})
 
 
