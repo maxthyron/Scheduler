@@ -1,7 +1,7 @@
 from django.db import models
 import textwrap
 
-from schedule.management.commands import configs
+from api import configs
 
 
 class Subject(models.Model):

@@ -2,7 +2,7 @@ import json
 import sys
 
 from .logger import LogMachine as log
-from schedule.management.commands.configs import *
+from api.configs import *
 
 
 def group_code_formatter(group_url):

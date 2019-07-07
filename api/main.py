@@ -1,13 +1,14 @@
-from schedule.management.commands.groups import unload_all_groups
-from schedule.management.commands.logger import LogMachine as log
-from schedule.management.commands.day import parse_row
+from api.groups import unload_all_groups
+from api.logger import LogMachine as log
+from api.day import parse_row
 import json
 import requests
-from schedule.management.commands import configs
-import textwrap
+from api import configs
 from bs4 import BeautifulSoup as bsoup
-from django.core.management.base import BaseCommand
 
+import os
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dbproject.settings")
 
 def parse_group_week(soup):
     for dID, day in enumerate(soup.select('div.col-md-6.hidden-xs')):
@@ -69,16 +70,13 @@ def read_group_html(outdir):
     log.info("Done!")
 
 
-class Command(BaseCommand):
-    help = "Hello"
-
-    def handle(self, *args, **options):
-        # get_all_groups("/Users/thyron/Desktop/db-course/temp/")
-        # read_json("/Users/thyron/Desktop/db-course/temp/")
-        # read_group_html("/Users/thyron/Desktop/db-course/temp/")
-        get_one_group("https://students.bmstu.ru/schedule/62f00e92-a264-11e5-be69-005056960017",
-                      "/Users/thyron/Desktop/db-course/temp/")
+def main():
+    # get_all_groups("/Users/thyron/Desktop/db-course/temp/")
+    # read_json("/Users/thyron/Desktop/db-course/temp/")
+    # read_group_html("/Users/thyron/Desktop/db-course/temp/")
+    get_one_group("https://students.bmstu.ru/schedule/62f00e92-a264-11e5-be69-005056960017",
+                  "/Users/thyron/Desktop/db-course/temp/")
 
 
 if __name__ == "__main__":
-    Command.handle()
+    main()
