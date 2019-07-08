@@ -11,6 +11,11 @@ from api.logger import LogMachine as log
 from api import configs
 
 
+def test():
+    a = Auditorium.objects.get(id='218л')
+    print(a.schedulesubject_set(manager='subjects').all())
+
+
 def create_schedule_timetable(outdir):
     with open(outdir + "schedule.html", "r") as page_html:
         soup = bsoup(page_html, "lxml")
@@ -48,16 +53,16 @@ def parse_row(cells, day_number):
                     a = Auditorium(id=auditorium, building=building, floor=floor)
                     a.save()
 
-                subject = ScheduleSubject.create(_type=_type,
-                                                 name=name,
-                                                 auditorium=Auditorium.objects.get(id=auditorium),
-                                                 professor=professor,
-                                                 subject_day_index=day_number,
-                                                 week_interval=
-                                                 (0 if cells[3].attrs == {
-                                                     'colspan': '2'} else 1) + (c == 4)
-                                                 ,
-                                                 time_id=time_id)
+                subject = ScheduleSubject(type=_type,
+                                          name=name,
+                                          auditorium=Auditorium.objects.get(id=auditorium),
+                                          professor=professor,
+                                          day=day_number,
+                                          week_interval=
+                                          (0 if cells[3].attrs == {
+                                              'colspan': '2'} else 1) + (c == 4)
+                                          ,
+                                          time_id=time_id)
                 subjects.append(subject)
             except (IndexError, AttributeError):
                 pass

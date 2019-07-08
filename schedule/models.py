@@ -30,6 +30,8 @@ class ScheduleSubject(models.Model):
     week_interval = models.IntegerField()
     day = models.IntegerField()
 
+    subjects = models.Manager()
+
     @classmethod
     def create(cls, _type, name, auditorium, professor, subject_day_index, week_interval,
                time_id):

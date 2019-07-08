@@ -3,7 +3,7 @@ from .models import ScheduleSubject
 
 
 def index(request):
-    subjects = ScheduleSubject.objects.all()
+    subjects = ScheduleSubject.subjects.all()
     return render(request, 'schedule/index.html', {'subjects': subjects})
 
 
