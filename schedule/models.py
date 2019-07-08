@@ -32,20 +32,6 @@ class ScheduleSubject(models.Model):
 
     subjects = models.Manager()
 
-    @classmethod
-    def create(cls, _type, name, auditorium, professor, subject_day_index, week_interval,
-               time_id):
-        subject = cls()
-        subject.type = _type
-        subject.name = name
-        subject.auditorium = auditorium
-        subject.professor = professor
-        subject.time = ScheduleTime.objects.get(id=time_id)
-        subject.week_interval = week_interval
-        subject.day = subject_day_index
-
-        return subject
-
     def __str__(self):
         return textwrap.dedent(configs.SUBJECT_BODY.format(lesson='{} {}'.format(self.type or '',
                                                                                  self.name),
