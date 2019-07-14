@@ -13,3 +13,5 @@ where ss.day = 0
   and auditorium_id = '218л';
 
 delete from schedule_schedulesubject;
+delete from schedule_scheduletime;
+delete from schedule_auditorium;

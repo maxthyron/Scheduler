@@ -59,7 +59,7 @@ def read_json(outdir):
 
 def main():
     # test()
-    # create_schedule_timetable("src/")
+    create_schedule_timetable("src/")
     # get_all_groups("/Users/thyron/Desktop/db-course/src/")
     # read_json("/Users/thyron/Desktop/db-course/src/")
 
