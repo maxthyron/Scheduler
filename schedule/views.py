@@ -3,7 +3,8 @@ from .models import ScheduleSubject, Auditorium, ScheduleTime, Day
 
 
 def index(request):
-    subjects = ScheduleSubject.subjects.all()
+    subjects = ScheduleSubject.subjects.all().select_related()
+
     return render(request, 'schedule/index.html', {'subjects': subjects})
 
 

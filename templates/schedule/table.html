@@ -2,15 +2,15 @@
 {% load schedule_extras %}
 
 {% block content %}
-  <p></p>
   {% for day, time_table in schedule_table.items %}
     <div class="media-body content-section">
       <div class="media-body">
         <h1>{{ day }}</h1>
-        {% for t in schedule_time%}
+        {% for t in schedule_time %}
+
           <h2>{{ t.start_time|time:'G:i' }} - {{ t.end_time|time:'G:i' }}</h2>
           {% for a in time_table|get_item:t.id %}
-            <tr>{{ a }}</tr>
+            <span class="badge badge-secondary">{{ a }}</span>
           {% endfor %}
         {% endfor %}
       </div>
