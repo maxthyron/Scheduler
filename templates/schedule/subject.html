@@ -1,10 +1,13 @@
-{% extends 'schedule/base.html' %}
+{% extends "schedule/base.html" %}
 
 {% block content %}
     <div class="media mb-4">
         <div class="media-body">
             <p class="mt-0">
-                {{ subject }}
+                Name: {{ subject.name|default:"None" }}
+            </p>
+            <p class="mt-0">
+                Auditorium: {{ subject.auditorium_id|default:"None" }}
             </p>
         </div>
     </div>

@@ -2,19 +2,37 @@
 {% load schedule_extras %}
 
 {% block content %}
-  {% for day, time_table in schedule_table.items %}
-    <div class="media-body content-section">
-      <div class="media-body">
-        <h1>{{ day }}</h1>
-        {% for t in schedule_time %}
-
-          <h2>{{ t.start_time|time:'G:i' }} - {{ t.end_time|time:'G:i' }}</h2>
-          {% for a in time_table|get_item:t.id %}
-            <span class="badge badge-secondary"><a href="{% url 'subject' day=day time_id=t.id aud=a%}">{{ a }}</a></span>
-          {% endfor %}
-        {% endfor %}
-      </div>
-    </div>
-
-  {% endfor %}
+    {% for day, time_table in schedule_table.items %}
+        <div class="container mb-4">
+            <h1>{{ day }}</h1>
+            <div class="accordion" id="table">
+                {% for t in schedule_time %}
+                    <div class="card">
+                        <div class="card-header" id="{{ t.start_time }}">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                    data-target="#table-{{ t.id }}-{{ day }}">
+                                {{ t.start_time|time:'G:i' }} - {{ t.end_time|time:'G:i' }}
+                            </button>
+                            <div id="table-{{ t.id }}-{{ day }}" class="collapse"
+                                 aria-labelledby="table-{{ t.id }}-{{ day }}" data-parent="#table">
+                                <div class="card-body">
+                                    <div class="container">
+                                        <div class="row">
+                                            {% for a in time_table|get_item:t.id %}
+                                                <div class="col col-sm-2">
+                                                    <a class="btn btn-success btn-block mb-2" aria-expanded="false"
+                                                       href="{% url 'subject' day_name=day time_id=t.id aud=a %}">{{ a }}
+                                                    </a>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}

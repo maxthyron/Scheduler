@@ -47,10 +47,9 @@ def refresh_models(request):
 
 
 # @login_required()
-def subject(request, day, time_id, aud):
-    day_id = Day.objects.filter(name=day)
-    s = ScheduleSubject.subjects.filter(day=day_id, time_id=time_id, auditorium_id=aud)
-    print(s)
+def subject(request, day_name, time_id, aud):
+    day = Day.objects.get(name=day_name)
+    s = ScheduleSubject.subjects.filter(day=day.id, time_id=time_id, auditorium_id=aud)
 
     return render(request, 'schedule/subject.html', {'subject': s})
 
@@ -63,23 +62,16 @@ def table(request):
     occupied_table = {}
     for d in days:
         schedule_table[d.name] = {}
-        occupied_table[d.name] = {}
+
         for t in time_table:
             auds = Auditorium.objects \
                 .exclude(id__in=ScheduleSubject.subjects.filter(day=d.id, time_id=t.id)
                          .values_list('auditorium', flat=True)).order_by("floor")
-            occupied = Auditorium.objects \
-                .filter(id__in=ScheduleSubject.subjects.filter(day=d.id, time_id=t.id)
-                        .values_list('auditorium', flat=True)).order_by("floor")
 
             schedule_table[d.name][t.id] = []
-            occupied_table[d.name][t.id] = []
             for a in auds:
                 schedule_table[d.name][t.id].append(a.id)
-            for o in occupied:
-                occupied_table[d.name][t.id].append(o.id)
 
     return render(request, 'schedule/table.html',
                   {'schedule_table': schedule_table,
-                   'schedule_time':  time_table,
-                   'occupied_table': occupied_table})
+                   'schedule_time':  time_table})
