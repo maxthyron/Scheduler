@@ -23,10 +23,10 @@ class ScheduleTime(models.Model):
 
 
 class ScheduleSubject(models.Model):
-    type = models.CharField(max_length=10, null=True, blank=True)
-    name = models.CharField(max_length=50)
+    type = models.CharField(max_length=50, null=True, blank=True)
+    name = models.CharField(max_length=150)
     auditorium = models.ForeignKey(Auditorium, on_delete=models.PROTECT)
-    professor = models.CharField(max_length=50, null=True, blank=True)
+    professor = models.CharField(max_length=150, null=True, blank=True)
     time = models.ForeignKey(ScheduleTime, on_delete=models.PROTECT)
     week_interval = models.IntegerField()
     day = models.IntegerField()
