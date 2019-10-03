@@ -4,16 +4,12 @@ from .models import ScheduleSubject, Auditorium, ScheduleTime, Day
 from django.http import JsonResponse, HttpResponse
 
 
-def index(request):
-    subjects = ScheduleSubject.subjects.all().select_related()
-
-    return render(request, 'schedule/index.html', {'subjects': subjects})
-
 def refresh_models(request):
     print("Ajax")
     call_command('clear_models')
     data = {'refreshed': True}
     return JsonResponse(data)
+
 
 def table(request):
     days = Day.objects.all()
@@ -26,7 +22,7 @@ def table(request):
             auds = Auditorium.objects \
                 .exclude(id__in=ScheduleSubject.subjects.filter(day=d.id,
                                                                 time_id=t.id)
-                         .values_list('auditorium', flat=True)).order_by("id")
+                         .values_list('auditorium', flat=True)).order_by("floor")
 
             schedule_table[d.name][t.id] = []
             for a in auds:
