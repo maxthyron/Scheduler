@@ -15,7 +15,7 @@
 <body>
 <header>
     <nav class="navbar navbar-light bg-dark">
-        <a href="#" class="navbar-brand text-light col-7"
+        <a href="{% url 'table' %}" class="navbar-brand text-light col-7"
            style="font-family: Menlo; font-size: 26px">Scheduler</a>
         <div class="options mr-3">
             <a class="btn btn-dark btn-lg" id="refresh" href="#">Refresh</a>
@@ -43,19 +43,19 @@
 <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
 <script src="{% static 'js/popper.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
-  <script>
+<script>
     $("#refresh").click(function () {
-      console.log("Started refreshing");
-      $.ajax({
-          url: 'refresh_models',
-          success: function(data) {
-              if (data.refreshed) {
-                  console.log("Refreshed");
-                  location.reload();
-              }
-          }
-      });
+        console.log("Started refreshing");
+        $.ajax({
+            url: 'refresh_models',
+            success: function (data) {
+                if (data.refreshed) {
+                    console.log("Refreshed");
+                    location.reload();
+                }
+            }
+        });
     });
-  </script>
+</script>
 </body>
 </html>

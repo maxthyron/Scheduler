@@ -10,7 +10,7 @@
 
           <h2>{{ t.start_time|time:'G:i' }} - {{ t.end_time|time:'G:i' }}</h2>
           {% for a in time_table|get_item:t.id %}
-            <span class="badge badge-secondary">{{ a }}</span>
+            <span class="badge badge-secondary"><a href="{% url 'subject' day=day time_id=t.id aud=a%}">{{ a }}</a></span>
           {% endfor %}
         {% endfor %}
       </div>
