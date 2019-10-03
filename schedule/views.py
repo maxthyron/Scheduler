@@ -1,5 +1,7 @@
 from django.shortcuts import render
+from django.core.management import call_command
 from .models import ScheduleSubject, Auditorium, ScheduleTime, Day
+from django.http import JsonResponse, HttpResponse
 
 
 def index(request):
@@ -7,6 +9,11 @@ def index(request):
 
     return render(request, 'schedule/index.html', {'subjects': subjects})
 
+def refresh_models(request):
+    print("Ajax")
+    call_command('clear_models')
+    data = {'refreshed': True}
+    return JsonResponse(data)
 
 def table(request):
     days = Day.objects.all()

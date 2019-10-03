@@ -76,6 +76,7 @@ def parse_row(cells, day_number):
                                               ,
                                               time_id=time_id)
                     subjects.append(subject)
+                    subject.save()
             except (IndexError, AttributeError):
                 pass
 
