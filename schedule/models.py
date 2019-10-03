@@ -5,8 +5,8 @@ from api import configs
 
 
 class Auditorium(models.Model):
-    id = models.CharField(max_length=10, primary_key=True)
-    building = models.CharField(max_length=10)
+    id = models.CharField(max_length=15, primary_key=True)
+    building = models.CharField(max_length=15)
     floor = models.IntegerField()
 
 
@@ -23,10 +23,10 @@ class ScheduleTime(models.Model):
 
 
 class ScheduleSubject(models.Model):
-    type = models.CharField(max_length=10, null=True, blank=True)
-    name = models.CharField(max_length=50)
+    type = models.CharField(max_length=20, null=True, blank=True)
+    name = models.CharField(max_length=100)
     auditorium = models.ForeignKey(Auditorium, on_delete=models.PROTECT)
-    professor = models.CharField(max_length=50, null=True, blank=True)
+    professor = models.CharField(max_length=100, null=True, blank=True)
     time = models.ForeignKey(ScheduleTime, on_delete=models.PROTECT)
     week_interval = models.IntegerField()
     day = models.IntegerField()

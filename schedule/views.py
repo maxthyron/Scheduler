@@ -19,7 +19,7 @@ def table(request):
             auds = Auditorium.objects \
                 .exclude(id__in=ScheduleSubject.subjects.filter(day=d.id,
                                                                 time_id=t.id)
-                         .values_list('auditorium', flat=True))
+                         .values_list('auditorium', flat=True)).order_by("id")
 
             schedule_table[d.name][t.id] = []
             for a in auds:
