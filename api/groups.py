@@ -16,7 +16,7 @@ def group_code_formatter(group_url):
 
 def unload_all_groups(soup, outdir):
     all_urls = soup.find_all('a', 'btn btn-sm btn-default text-nowrap')
-    all_urls = all_urls[:3]  # Fixed to speed up the process [DELETE THIS LINE]
+    # all_urls = all_urls[:3]  # Fixed to speed up the process [DELETE THIS LINE]
     urls_count = len(all_urls)
 
     mapping = []

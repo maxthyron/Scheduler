@@ -11,14 +11,12 @@ SUBJECT_BODY = \
     DESCRIPTION:{professor}
     '''
 
-URLS_FILE = '/groups_urls'
+URLS_FILE = 'groups_urls'
 
 # bmstu
-MAIN_URL = 'http://web.archive.org/web/20170926061533/https://students.bmstu.ru'
-GROUPS_LIST_URL = '/schedule/62f00e92-a264-11e5-be69-005056960017'  # '/schedule/list'
+MAIN_URL = 'https://students.bmstu.ru'
+GROUPS_LIST_URL = '/schedule/list'  # '/schedule/list'
 
-# physical culture
-PC_LESSON_KEYREGEX = r'.*(спорту|Физ воспитание).*'
 
 DAY_MAP = {
     "ПН": "Monday",

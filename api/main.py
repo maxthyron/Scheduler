@@ -59,14 +59,15 @@ def read_json(outdir):
 
 def main():
     # test()
-    create_schedule_timetable("src/")
-    # get_all_groups("/Users/thyron/Desktop/db-course/src/")
+    # create_schedule_timetable("src/")
+    subjects = get_all_groups("/Users/thyron/Documents/Scheduler/api/src/")
     # read_json("/Users/thyron/Desktop/db-course/src/")
 
     # get_one_group("https://students.bmstu.ru/schedule/62f00e92-a264-11e5-be69-005056960017")
 
-    subjects = read_group_html("./src/")
+    # subjects = read_group_html("./src/")
     for s in subjects:
+        print(s)
         s.save()
     log.info('Done!')
 
