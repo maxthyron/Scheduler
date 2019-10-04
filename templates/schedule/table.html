@@ -21,14 +21,14 @@
                                             {% for a in aud_type.free|get_item:t.id %}
                                                 <div class="col col-sm-2">
                                                     <a class="btn btn-success btn-block mb-2" aria-expanded="false"
-                                                       href="{% url 'subject' day_name=day time_id=t.id aud=a.id %}">{{ a.id }}
+                                                       href="{% url 'subject' day_name=day time_id=t.id aud_id=a.id %}">{{ a.id }}
                                                     </a>
                                                 </div>
                                             {% endfor %}
                                             {% for a in aud_type.occupied|get_item:t.id %}
                                                 <div class="col col-sm-2">
                                                     <a class="btn btn-danger btn-block mb-2" aria-expanded="false"
-                                                       href="{% url 'subject' day_name=day time_id=t.id aud=a.id %}">{{ a.id }}
+                                                       href="{% url 'subject' day_name=day time_id=t.id aud_id=a.id %}">{{ a.id }}
                                                     </a>
                                                 </div>
                                             {% endfor %}
