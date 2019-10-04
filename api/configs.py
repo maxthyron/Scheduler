@@ -7,8 +7,11 @@ SUBJECT_BODY = \
     LESSON:{lesson}
     STARTTIME:{startTime}
     ENDTIME:{endTime}
+    DAY:{day}
+    WEEK:{week}
     LOCATION:{auditorium}
-    DESCRIPTION:{professor}
+    PROFESSOR:{professor}
+    GROUP:{group}
     '''
 
 URLS_FILE = 'groups_urls'

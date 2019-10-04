@@ -1,0 +1,14 @@
+{% extends 'schedule/table.html' %}
+
+{% block table_time %}
+<div id="table-{{ t_id }}-{{ day }}" class="collapse"
+     aria-labelledby="table-{{ t_id }}-{{ day }}" data-parent="#table">
+    <div class="card-body">
+        <div class="container">
+            <div class="row">
+                    {% block table_cell %} {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -14,9 +14,8 @@ def group_code_formatter(group_url):
         sys.exit(-1)
 
 
-def unload_all_groups(soup, outdir):
+def unload_all_groups(soup):
     all_urls = soup.find_all('a', 'btn btn-sm btn-default text-nowrap')
-    # all_urls = all_urls[:3]  # Fixed to speed up the process [DELETE THIS LINE]
     urls_count = len(all_urls)
 
     mapping = []
@@ -43,6 +42,3 @@ def unload_all_groups(soup, outdir):
                 })
         except Exception as ex:
             log.error((ex, url_id, group_url_button))
-
-    with open(outdir + configs.URLS_FILE, 'w', encoding='utf-8') as mapping_file:
-        mapping_file.write(json.dumps(mapping, ensure_ascii=False))

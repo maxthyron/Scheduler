@@ -8,6 +8,6 @@ urlpatterns = [
     path('sign/', views.sign_up, name='user_sign'),
     path('login', views.sign_in, name='login_user'),
     path('table/', views.table, name="table"),
-    path('table/refresh_models/', views.refresh_models, name='refresh'),
-    path('subject/<str:day_name>/<int:time_id>/<str:aud>/', views.subject, name='subject')
+    path('refresh_models/', views.refresh_models, name='refresh'),
+    path('subject/<str:day_name>/<int:time_id>/<str:aud_id>/', views.subject, name='subject')
     ]

@@ -47,30 +47,28 @@ def refresh_models(request):
 
 
 # @login_required()
-def subject(request, day_name, time_id, aud):
+def subject(request, day_name, time_id, aud_id):
+    aud = Auditorium.objects.get(id=aud_id)
     day = Day.objects.get(name=day_name)
-    s = ScheduleSubject.subjects.filter(day=day.id, time_id=time_id, auditorium_id=aud)
+    s = ScheduleSubject.subjects.filter(day=day.id, time_id=time_id, auditorium_id=aud_id)
+    print(s)
 
-    return render(request, 'schedule/subject.html', {'subject': s})
+    return render(request, 'schedule/subject.html', {'subjects': s, 'aud': aud})
 
 
 def table(request):
-    days = Day.objects.all()
+    day_table = Day.objects.all()
     time_table = ScheduleTime.objects.all()
-
     schedule_table = {}
-    occupied_table = {}
-    for d in days:
-        schedule_table[d.name] = {}
+    for d in day_table:
+        schedule_table[d.name] = {'free': {}, 'occupied': {}}
 
         for t in time_table:
-            auds = Auditorium.objects \
-                .exclude(id__in=ScheduleSubject.subjects.filter(day=d.id, time_id=t.id)
-                         .values_list('auditorium', flat=True)).order_by("floor")
+            free = Auditorium.get_free_auditorium(d, t)
+            schedule_table[d.name]['free'][t.id] = free
 
-            schedule_table[d.name][t.id] = []
-            for a in auds:
-                schedule_table[d.name][t.id].append(a.id)
+            occupied = Auditorium.get_occupied_auditorium(d, t)
+            schedule_table[d.name]['occupied'][t.id] = occupied
 
     return render(request, 'schedule/table.html',
                   {'schedule_table': schedule_table,

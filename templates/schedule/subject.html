@@ -3,12 +3,15 @@
 {% block content %}
     <div class="media mb-4">
         <div class="media-body">
-            <p class="mt-0">
-                Name: {{ subject.name|default:"None" }}
-            </p>
-            <p class="mt-0">
-                Auditorium: {{ subject.auditorium_id|default:"None" }}
-            </p>
+            <h2 class="mt-0">
+                Auditorium: {{ aud.id }}
+            </h2>
+            <h3 class="mt-0">
+                Group(s):
+            </h3>
+            {% for subject in subjects %}
+                <p>{{ subject.group }}</p>
+            {% endfor %}
         </div>
     </div>
 

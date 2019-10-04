@@ -9,6 +9,7 @@ from schedule.models import ScheduleSubject, ScheduleTime, Auditorium, Day
 from bs4 import BeautifulSoup as bsoup
 from api.logger import LogMachine as log
 from api import configs
+from django.db import utils
 
 import re
 
@@ -43,7 +44,7 @@ def process_auditorium(a):
         return []
 
 
-def parse_row(cells, day_number):
+def parse_row(cells, day_number, valid_group_code):
     if len(set(cell for cell in cells[3:5])) > 1:
         subjects = []
         start_time, end_time = map(lambda x: x + ':00', cells[1].string.split(" - "))
@@ -69,6 +70,7 @@ def parse_row(cells, day_number):
                                               name=name,
                                               auditorium=Auditorium.objects.get(id=auditorium),
                                               professor=professor,
+                                              group=valid_group_code,
                                               day=day_number,
                                               week_interval=
                                               (0 if cells[3].attrs == {
@@ -76,7 +78,10 @@ def parse_row(cells, day_number):
                                               ,
                                               time_id=time_id)
                     subjects.append(subject)
-                    subject.save()
+                    try:
+                        subject.save()
+                    except utils.IntegrityError as e:
+                        log.error(e)
             except (IndexError, AttributeError):
                 pass
 
