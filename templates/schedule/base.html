@@ -15,10 +15,10 @@
 <body>
 <header>
     <nav class="navbar navbar-light bg-dark">
-        <a href="{% url 'home' %}" class="navbar-brand text-light col-7"
+        <a href="{% url 'home' %}" class="navbar-brand text-light col-9"
            style="font-family: Menlo; font-size: 26px">Scheduler</a>
-        {% block header %}
-            <div class="options mr-3">
+        <div class="options mr-3">
+            {% block header %}
                 {% if user.is_authenticated %}
                     <span class="btn btn-dark disabled">{{ user.username }}</span>
                     <a class="btn btn-dark btn-lg" href="{% url 'logout' %}">Log out</a>
@@ -29,8 +29,8 @@
                     <a class="btn btn-dark btn-lg" href="{% url 'register' %}">Sign in</a>
                     <a class="btn btn-dark btn-lg" href="{% url 'login' %}">Log in</a>
                 {% endif %}
-            </div>
-        {% endblock %}
+            {% endblock %}
+        </div>
     </nav>
 </header>
 

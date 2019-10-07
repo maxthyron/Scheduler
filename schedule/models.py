@@ -24,7 +24,6 @@ class Auditorium(models.Model):
     def get_reserved_auditorium(d, t):
         reserved = ReservedAuditorium.objects.select_related('auditorium').filter(day_id=d.id,
                                                                                   time_id=t.id)
-        print(reserved)
         return reserved
 
     @classmethod

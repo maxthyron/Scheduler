@@ -7,6 +7,7 @@ from . import views
 urlpatterns = [
     path('', views.table, name="home"),
     path('refresh_models/', views.refresh_models, name='refresh'),
+    path('cancel_reserved/', views.cancel_reserved, name='cancel_reserved'),
     path('register/', views.register, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='schedule/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='schedule/logout.html'),

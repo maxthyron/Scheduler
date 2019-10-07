@@ -28,6 +28,22 @@ def refresh_models(request):
     return JsonResponse(data)
 
 
+def cancel_reserved(request):
+    schedule_day = Day.objects.get(id=request.GET.get('day_id'))
+    schedule_time = ScheduleTime.objects.get(id=request.GET.get('time_id'))
+    aud = Auditorium.objects.get(id=request.GET.get('aud_id'))
+    user = User.objects.get(username=request.GET.get('user'))
+
+    reserved_auditorium = ReservedAuditorium.objects.get(day=schedule_day,
+                                                         time=schedule_time,
+                                                         auditorium=aud,
+                                                         user=user)
+    reserved_auditorium.delete()
+
+    data = {'canceled': True}
+    return JsonResponse(data)
+
+
 def occupy_auditorium(request):
     schedule_day = Day.objects.get(id=request.GET.get('day_id'))
     schedule_time = ScheduleTime.objects.get(id=request.GET.get('time_id'))
@@ -60,12 +76,12 @@ def subject(request, day_name, time_id, aud_id):
     s = subjects.first()
     groups = subjects.values_list('group', flat=True)
 
-    return render(request, 'schedule/subject.html', {'groups':  groups,
-                                                     'aud':     aud,
-                                                     'day':     day,
-                                                     'time_id': time_id,
-                                                     'subject': s,
-                                                     'reserved': reserved,
+    return render(request, 'schedule/subject.html', {'groups':           groups,
+                                                     'aud':              aud,
+                                                     'day':              day,
+                                                     'time_id':          time_id,
+                                                     'subject':          s,
+                                                     'reserved':         reserved,
                                                      'reserved_by_user': user})
 
 

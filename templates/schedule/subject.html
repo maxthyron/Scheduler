@@ -1,5 +1,14 @@
 {% extends "schedule/base.html" %}
 {% block header %}
+
+    {% if user.is_authenticated %}
+        <span class="btn btn-dark disabled">{{ user.username }}</span>
+        <a class="btn btn-dark btn-lg" href="{% url 'logout' %}">Log out</a>
+    {% else %}
+        <a class="btn btn-dark btn-lg" href="{% url 'register' %}">Sign in</a>
+        <a class="btn btn-dark btn-lg" href="{% url 'login' %}">Log in</a>
+    {% endif %}
+
 {% endblock %}
 {% block content %}
     <div class="media mb-4">
@@ -24,19 +33,24 @@
                 </h3>
             </div>
             <div class="mt-4">
-                {% if not subject and not reserved_by_user%}
+                {% if not subject and not reserved_by_user %}
                     {% if user.is_authenticated %}
                         <a class="btn btn-dark btn-lg" id="take_aud" href="#">Occupy auditorium</a>
                     {% else %}
-                        <a class="btn btn-secondary disabled">Occupy auditorium</a>
+                        <a class="btn btn-dark disabled">Occupy auditorium</a>
                         <div class="pt-3">
                             <small class="text-muted">
                                 You need to be logged in to occupy this auditorium!
                                 <br>
-                                Have an account or want to create one? Then <a href="{% url 'login' %}?next={{ request.get_full_path }}">log in</a> or <a
+                                Have an account or want to create one? Then <a
+                                    href="{% url 'login' %}?next={{ request.get_full_path }}">log in</a> or <a
                                     href="{% url 'register' %}?next={{ request.get_full_path }}">sign up</a>!
                             </small>
                         </div>
+                    {% endif %}
+                {% else %}
+                    {% if user.is_authenticated and user.id == reserved_by_user.id %}
+                        <a class="btn btn-dark btn-lg" id="cancel_reserved" href="#">Cancel reservation</a>
                     {% endif %}
                 {% endif %}
             </div>
@@ -48,7 +62,6 @@
 {% block script %}
     <script>
         $("#take_aud").click(function () {
-            console.log("Took aud");
             $.ajax({
                 type: "GET",
                 data: {
@@ -61,6 +74,24 @@
                 success: function (data) {
                     if (data.taken) {
                         console.log("Taken");
+                        location.reload();
+                    }
+                }
+            });
+        });
+        $("#cancel_reserved").click(function () {
+            $.ajax({
+                type: "GET",
+                data: {
+                    aud_id: '{{ aud.id }}',
+                    day_id: '{{ day.id }}',
+                    time_id: '{{ time_id }}',
+                    user: '{{ user.username }}'
+                },
+                url: "{% url 'cancel_reserved' %}",
+                success: function (data) {
+                    if (data.canceled) {
+                        console.log("Canceled");
                         location.reload();
                     }
                 }
