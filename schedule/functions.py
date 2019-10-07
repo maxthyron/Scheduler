@@ -5,8 +5,7 @@ import pytz
 
 
 def get_start_date():
-    r = requests.get(url=configs.DATE_URL)
-    date = r.json()['semester_start_date']
+    date = '02-09-2019'
 
     return datetime.datetime.strptime(date, configs.DATE_FORMAT).date()
 
