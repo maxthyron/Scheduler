@@ -20,6 +20,7 @@
         {% block header %}
             <div class="options mr-3">
                 {% if user.is_authenticated %}
+                    <span class="btn btn-dark disabled">{{ user.username }}</span>
                     <a class="btn btn-dark btn-lg" href="{% url 'logout' %}">Log out</a>
                     {% ifequal user.get_username 'scheduler_usr' %}
                         <a class="btn btn-dark btn-lg" id="refresh" href="#">Refresh</a>

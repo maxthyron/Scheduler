@@ -22,9 +22,10 @@ class Auditorium(models.Model):
 
     @staticmethod
     def get_reserved_auditorium(d, t):
-        reserved = ReservedAuditorium.objects.filter(day_id=d.id, time_id=t.id).values_list(
-            'auditorium', flat=True)
-        return Auditorium.objects.filter(id__in=reserved).order_by("classroom")
+        reserved = ReservedAuditorium.objects.select_related('auditorium').filter(day_id=d.id,
+                                                                                  time_id=t.id)
+        print(reserved)
+        return reserved
 
     @classmethod
     def get_free_auditorium(cls, d, t, current_week):
@@ -55,7 +56,7 @@ class ReservedAuditorium(models.Model):
 
     @staticmethod
     def get_reserved_auditorium(d, t):
-        return ReservedAuditorium.objects.filter(day_id=d.id, time_id=t.id)\
+        return ReservedAuditorium.objects.filter(day_id=d.id, time_id=t.id) \
             .values_list('auditorium', flat=True)
 
 

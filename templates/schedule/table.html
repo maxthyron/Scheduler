@@ -26,16 +26,16 @@
                                                 </div>
                                             {% endfor %}
                                             {% for a in aud_type.reserved|get_item:t.id %}
-                                                {% ifequal user.username reserved_by_user %}
+                                                {% ifequal user.id a.user_id %}
                                                     <div class="col col-sm-2">
                                                         <a class="btn btn-primary btn-block mb-2" aria-expanded="false"
-                                                           href="{% url 'subject' day_name=day time_id=t.id aud_id=a.id %}">{{ a.id }}
+                                                           href="{% url 'subject' day_name=day time_id=t.id aud_id=a.auditorium.id %}">{{ a.auditorium.id }}
                                                         </a>
                                                     </div>
                                                 {% else %}
                                                     <div class="col col-sm-2">
                                                         <a class="btn btn-warning btn-block mb-2" aria-expanded="false"
-                                                           href="{% url 'subject' day_name=day time_id=t.id aud_id=a.id %}">{{ a.id }}
+                                                           href="{% url 'subject' day_name=day time_id=t.id aud_id=a.auditorium.id %}">{{ a.auditorium.id }}
                                                         </a>
                                                     </div>
                                                 {% endifequal %}
