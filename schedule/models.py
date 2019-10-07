@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
+from django.contrib.auth.models import User
 import textwrap
 
 from api import configs
@@ -12,18 +14,24 @@ class Auditorium(models.Model):
     floor = models.IntegerField()
 
     @staticmethod
-    def get_free_auditorium(d, t, current_week):
-        return Auditorium.objects \
-            .exclude(id__in=ScheduleSubject.subjects.filter(day=d.id, time_id=t.id,
-                                                            week_interval=current_week)
-                     .values_list('auditorium', flat=True)).order_by("classroom")
-
-    @staticmethod
     def get_occupied_auditorium(d, t, current_week):
         return Auditorium.objects \
             .filter(id__in=ScheduleSubject.subjects.filter(day=d.id, time_id=t.id,
                                                            week_interval=current_week)
                     .values_list('auditorium', flat=True)).order_by("classroom")
+
+    @staticmethod
+    def get_reserved_auditorium(d, t):
+        reserved = ReservedAuditorium.objects.filter(day_id=d.id, time_id=t.id).values_list(
+            'auditorium', flat=True)
+        return Auditorium.objects.filter(id__in=reserved).order_by("classroom")
+
+    @classmethod
+    def get_free_auditorium(cls, d, t, current_week):
+        occupied_auds = cls.get_occupied_auditorium(d, t, current_week)
+        reserved_auds = ReservedAuditorium.get_reserved_auditorium(d, t)
+        return Auditorium.objects \
+            .exclude(id__in=occupied_auds).exclude(id__in=reserved_auds).order_by("classroom")
 
 
 class Day(models.Model):
@@ -38,6 +46,19 @@ class ScheduleTime(models.Model):
     end_time = models.TimeField()
 
 
+class ReservedAuditorium(models.Model):
+    auditorium = models.ForeignKey(Auditorium, on_delete=models.CASCADE)
+    day = models.ForeignKey(Day, on_delete=models.CASCADE)
+    time = models.ForeignKey(ScheduleTime, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField(auto_now=True)
+
+    @staticmethod
+    def get_reserved_auditorium(d, t):
+        return ReservedAuditorium.objects.filter(day_id=d.id, time_id=t.id)\
+            .values_list('auditorium', flat=True)
+
+
 class ScheduleSubject(models.Model):
     type = models.CharField(max_length=50, null=True, blank=True)
     name = models.CharField(max_length=150)
@@ -46,7 +67,7 @@ class ScheduleSubject(models.Model):
     time = models.ForeignKey(ScheduleTime, on_delete=models.PROTECT)
     group = models.CharField(max_length=50)
     week_interval = models.IntegerField()
-    day = models.IntegerField()
+    day = models.ForeignKey(Day, on_delete=models.PROTECT)
 
     subjects = models.Manager()
 

@@ -50,6 +50,8 @@ def parse_row(cells, day_number, valid_group_code):
         start_time, end_time = map(lambda x: x + ':00', cells[1].string.split(" - "))
         time_id = ScheduleTime.objects.get(start_time=start_time).id
 
+        day = Day.objects.get(id=day_number)
+
         for c in range(3, 5):
             try:
                 _type, name, auditorium_cell, professor = (cells[c].contents[i].string for i in
@@ -73,7 +75,7 @@ def parse_row(cells, day_number, valid_group_code):
                                               auditorium=Auditorium.objects.get(id=auditorium),
                                               professor=professor,
                                               group=valid_group_code,
-                                              day=day_number,
+                                              day=day,
                                               week_interval=
                                               (0 if cells[3].attrs == {'colspan': '2'}
                                                else 1) + (c == 4),

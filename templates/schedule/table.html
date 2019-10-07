@@ -25,6 +25,21 @@
                                                     </a>
                                                 </div>
                                             {% endfor %}
+                                            {% for a in aud_type.reserved|get_item:t.id %}
+                                                {% ifequal user.username reserved_by_user %}
+                                                    <div class="col col-sm-2">
+                                                        <a class="btn btn-primary btn-block mb-2" aria-expanded="false"
+                                                           href="{% url 'subject' day_name=day time_id=t.id aud_id=a.id %}">{{ a.id }}
+                                                        </a>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="col col-sm-2">
+                                                        <a class="btn btn-warning btn-block mb-2" aria-expanded="false"
+                                                           href="{% url 'subject' day_name=day time_id=t.id aud_id=a.id %}">{{ a.id }}
+                                                        </a>
+                                                    </div>
+                                                {% endifequal %}
+                                            {% endfor %}
                                             {% for a in aud_type.occupied|get_item:t.id %}
                                                 <div class="col col-sm-2">
                                                     <a class="btn btn-danger btn-block mb-2" aria-expanded="false"
