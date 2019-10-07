@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 import textwrap
 
 from api import configs
@@ -10,15 +11,17 @@ class Auditorium(models.Model):
     floor = models.IntegerField()
 
     @staticmethod
-    def get_free_auditorium(d, t):
+    def get_free_auditorium(d, t, current_week):
         return Auditorium.objects \
-            .exclude(id__in=ScheduleSubject.subjects.filter(day=d.id, time_id=t.id)
+            .exclude(id__in=ScheduleSubject.subjects.filter(day=d.id, time_id=t.id,
+                                                            week_interval=current_week)
                      .values_list('auditorium', flat=True)).order_by("floor")
 
     @staticmethod
-    def get_occupied_auditorium(d, t):
+    def get_occupied_auditorium(d, t, current_week):
         return Auditorium.objects \
-            .filter(id__in=ScheduleSubject.subjects.filter(day=d.id, time_id=t.id)
+            .filter(id__in=ScheduleSubject.subjects.filter(day=d.id, time_id=t.id,
+                                                           week_interval=current_week)
                     .values_list('auditorium', flat=True)).order_by("floor")
 
 

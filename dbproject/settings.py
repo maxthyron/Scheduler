@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'schedule.apps.ScheduleConfig',
+    'crispy_forms',
     ]
 
 MIDDLEWARE = [
@@ -123,5 +124,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     ]
 
-from django.urls import reverse_lazy
-LOGIN_URL = reverse_lazy('login_user')
+LOGIN_REDIRECT_URL = 'home'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

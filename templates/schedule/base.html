@@ -15,11 +15,21 @@
 <body>
 <header>
     <nav class="navbar navbar-light bg-dark">
-        <a href="{% url 'table' %}" class="navbar-brand text-light col-7"
+        <a href="{% url 'home' %}" class="navbar-brand text-light col-7"
            style="font-family: Menlo; font-size: 26px">Scheduler</a>
-        <div class="options mr-3">
-            <a class="btn btn-dark btn-lg" id="refresh" href="#">Refresh</a>
-        </div>
+        {% block header %}
+            <div class="options mr-3">
+                {% if user.is_authenticated %}
+                    <a class="btn btn-dark btn-lg" href="{% url 'logout' %}">Log out</a>
+                    {% ifequal user.get_username 'scheduler_usr' %}
+                        <a class="btn btn-dark btn-lg" id="refresh" href="#">Refresh</a>
+                    {% endifequal %}
+                {% else %}
+                    <a class="btn btn-dark btn-lg" href="{% url 'register' %}">Sign in</a>
+                    <a class="btn btn-dark btn-lg" href="{% url 'login' %}">Log in</a>
+                {% endif %}
+            </div>
+        {% endblock %}
     </nav>
 </header>
 
@@ -28,9 +38,7 @@
         <div class="col-md-12">
             {% if messages %}
                 {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        {{ message }}
-                    </div>
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
                 {% endfor %}
             {% endif %}
             {% block content %}{% endblock %}
@@ -43,19 +51,21 @@
 <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
 <script src="{% static 'js/popper.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
-<script>
-    $("#refresh").click(function () {
-        console.log("Started refreshing");
-        $.ajax({
-            url: 'refresh_models',
-            success: function (data) {
-                if (data.refreshed) {
-                    console.log("Refreshed");
-                    location.reload();
+{% block script %}
+    <script>
+        $("#refresh").click(function () {
+            console.log("Started refreshing");
+            $.ajax({
+                url: 'refresh_models',
+                success: function (data) {
+                    if (data.refreshed) {
+                        console.log("Refreshed");
+                        location.reload();
+                    }
                 }
-            }
+            });
         });
-    });
-</script>
+    </script>
+{% endblock %}
 </body>
 </html>
