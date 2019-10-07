@@ -1,5 +1,6 @@
 # time-section
 DATE_FORMAT = '%d-%m-%Y'
+TIME_FORMAT = '%H:%M:%S'
 DATE_URL = 'http://142.93.174.191/start_date/'
 
 SUBJECT_BODY = \

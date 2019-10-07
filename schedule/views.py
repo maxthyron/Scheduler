@@ -85,11 +85,29 @@ def subject(request, day_name, time_id, aud_id):
                                                      'reserved_by_user': user})
 
 
+def current(request):
+    current_day, current_time = functions.get_current_scheduletime()
+    d = Day.objects.all()
+    t = ScheduleTime.objects.all()
+    current_week = functions.get_current_week()
+    schedule_table = {}
+
+    schedule_table[d.name] = {'current': {}}
+
+    current = Auditorium.get_current_auditorium(d, t, current_week)
+    schedule_table[d.name]['current'][t.id] = current
+
+    return render(request, 'schedule/table.html',
+                  {'schedule_table': schedule_table,
+                   'schedule_time':  time_table})
+
+
 def table(request):
     day_table = Day.objects.all()
     time_table = ScheduleTime.objects.all()
     schedule_table = {}
     current_week = functions.get_current_week()
+    functions.get_current_auditories()
 
     for d in day_table:
         schedule_table[d.name] = {'free': {}, 'occupied': {}, 'reserved': {}}
