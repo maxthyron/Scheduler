@@ -59,11 +59,13 @@ def parse_row(cells, day_number, valid_group_code):
                     if not auditorium or auditorium == 'Каф':
                         raise AttributeError
                     elif not Auditorium.objects.filter(id=auditorium):
-                        print(auditorium)
-                        building = (auditorium[-1:] if not ("0" <= auditorium[-1:] <= "9") else "")
-                        length = (len(auditorium) if not building else len(auditorium[:-1]))
-                        floor = (int(auditorium[:2] if length == 4 else int(auditorium[:1])))
-                        a = Auditorium(id=auditorium, building=building, floor=floor)
+                        room = re.search(r'(\d+)', auditorium).group()
+                        building = re.search(r'[а-я]?$', auditorium).group()
+                        floor = (int(auditorium[:2] if len(room) == 4 else int(auditorium[:1])))
+                        a = Auditorium(id=auditorium,
+                                       classroom=room,
+                                       building=building,
+                                       floor=floor)
                         a.save()
 
                     subject = ScheduleSubject(type=_type,
@@ -73,9 +75,8 @@ def parse_row(cells, day_number, valid_group_code):
                                               group=valid_group_code,
                                               day=day_number,
                                               week_interval=
-                                              (0 if cells[3].attrs == {
-                                                  'colspan': '2'} else 1) + (c == 4)
-                                              ,
+                                              (0 if cells[3].attrs == {'colspan': '2'}
+                                               else 1) + (c == 4),
                                               time_id=time_id)
                     subjects.append(subject)
                     try:

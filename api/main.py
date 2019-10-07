@@ -58,7 +58,8 @@ def read_json(outdir):
 
 
 def main():
-    subjects = get_all_groups()
+    get_all_groups()
+    # read_group_html('src/')
     log.info('Done!')
 
 

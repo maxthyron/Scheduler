@@ -7,6 +7,7 @@ from api import configs
 
 class Auditorium(models.Model):
     id = models.CharField(max_length=15, primary_key=True)
+    classroom = models.IntegerField()
     building = models.CharField(max_length=15)
     floor = models.IntegerField()
 
@@ -15,14 +16,14 @@ class Auditorium(models.Model):
         return Auditorium.objects \
             .exclude(id__in=ScheduleSubject.subjects.filter(day=d.id, time_id=t.id,
                                                             week_interval=current_week)
-                     .values_list('auditorium', flat=True)).order_by("floor")
+                     .values_list('auditorium', flat=True)).order_by("classroom")
 
     @staticmethod
     def get_occupied_auditorium(d, t, current_week):
         return Auditorium.objects \
             .filter(id__in=ScheduleSubject.subjects.filter(day=d.id, time_id=t.id,
                                                            week_interval=current_week)
-                    .values_list('auditorium', flat=True)).order_by("floor")
+                    .values_list('auditorium', flat=True)).order_by("classroom")
 
 
 class Day(models.Model):
