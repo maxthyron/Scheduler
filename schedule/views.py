@@ -5,6 +5,7 @@ from .forms import UserRegisterForm
 from django.contrib import messages
 from .models import ScheduleSubject, Auditorium, ScheduleTime, Day, ReservedAuditorium
 from django.http import JsonResponse
+import datetime
 from . import functions
 
 
@@ -87,19 +88,41 @@ def subject(request, day_name, time_id, aud_id):
 
 def current(request):
     current_day, current_time = functions.get_current_scheduletime()
-    d = Day.objects.all()
-    t = ScheduleTime.objects.all()
+    schedule_time = ScheduleTime.objects.all()
+    for i in range(len(schedule_time)):
+        current_scheduletime = datetime.time.fromisoformat(current_time)
+        if schedule_time[i].start_time < current_scheduletime < schedule_time[i].end_time:
+            day_table = Day.objects.filter(id=current_day)
+            scheduletime_table = ScheduleTime.objects.filter(start_time=schedule_time[i].start_time)
+            break
+        elif schedule_time[(i - 1) if i > 0 else 0].end_time < current_scheduletime < schedule_time[
+            i].end_time:
+            day_table = Day.objects.filter(id=current_day)
+            scheduletime_table = ScheduleTime.objects.filter(start_time=schedule_time[i].start_time)
+            break
+        else:
+            day_table = Day.objects.filter(id=current_day + 1)
+            scheduletime_table = ScheduleTime.objects.filter(start_time=schedule_time[0].start_time)
+
     current_week = functions.get_current_week()
     schedule_table = {}
 
-    schedule_table[d.name] = {'current': {}}
+    for d in day_table:
+        schedule_table[d.name] = {'free': {}, 'occupied': {}, 'reserved': {}}
 
-    current = Auditorium.get_current_auditorium(d, t, current_week)
-    schedule_table[d.name]['current'][t.id] = current
+        for t in scheduletime_table:
+            free = Auditorium.get_free_auditoriums(d, t, current_week)
+            schedule_table[d.name]['free'][t.id] = free
+
+            occupied = Auditorium.get_occupied_auditoriums(d, t, current_week)
+            schedule_table[d.name]['occupied'][t.id] = occupied
+
+            reserved = Auditorium.get_reserved_auditoriums(d, t)
+            schedule_table[d.name]['reserved'][t.id] = reserved
 
     return render(request, 'schedule/table.html',
                   {'schedule_table': schedule_table,
-                   'schedule_time':  time_table})
+                   'schedule_time':  scheduletime_table})
 
 
 def table(request):
@@ -107,19 +130,18 @@ def table(request):
     time_table = ScheduleTime.objects.all()
     schedule_table = {}
     current_week = functions.get_current_week()
-    functions.get_current_auditories()
 
     for d in day_table:
         schedule_table[d.name] = {'free': {}, 'occupied': {}, 'reserved': {}}
 
         for t in time_table:
-            free = Auditorium.get_free_auditorium(d, t, current_week)
+            free = Auditorium.get_free_auditoriums(d, t, current_week)
             schedule_table[d.name]['free'][t.id] = free
 
-            occupied = Auditorium.get_occupied_auditorium(d, t, current_week)
+            occupied = Auditorium.get_occupied_auditoriums(d, t, current_week)
             schedule_table[d.name]['occupied'][t.id] = occupied
 
-            reserved = Auditorium.get_reserved_auditorium(d, t)
+            reserved = Auditorium.get_reserved_auditoriums(d, t)
             schedule_table[d.name]['reserved'][t.id] = reserved
 
     return render(request, 'schedule/table.html',

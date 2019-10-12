@@ -5,15 +5,15 @@
     {% for day, aud_type in schedule_table.items %}
         <div class="container mb-4">
             <h1>{{ day }}</h1>
-            <div class="accordion" role="tablist" id="table">
+            <div class="accordion" id="table">
                 {% for t in schedule_time %}
                     <div class="card" role="tab">
                         <div class="card-header" id="{{ t.start_time }}">
-                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                            <button class="btn btn-link" aria-expanded="true" data-toggle="collapse"
                                     data-target="#table-{{ t.id }}-{{ day }}">
                                 {{ t.start_time|time:'G:i' }} - {{ t.end_time|time:'G:i' }}
                             </button>
-                            <div id="table-{{ t.id }}-{{ day }}" class="collapse"
+                            <div id="table-{{ t.id }}-{{ day }}" class="collapse show"
                                  aria-labelledby="table-{{ t.id }}-{{ day }}" data-parent="#table">
                                 <div class="card-body">
                                     <div class="container">

@@ -42,7 +42,10 @@
                     <div class="alert alert-{{ message.tags }}">{{ message }}</div>
                 {% endfor %}
             {% endif %}
-            {% block content %}{% endblock %}
+
+            {% block content %}
+                <a class="btn mt-4 mb-4 btn-dark btn-lg" href="{% url 'current' %}">Current</a>
+            {% endblock %}
         </div>
     </div>
 </main>

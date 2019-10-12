@@ -14,21 +14,21 @@ class Auditorium(models.Model):
     floor = models.IntegerField()
 
     @staticmethod
-    def get_occupied_auditorium(d, t, current_week):
+    def get_occupied_auditoriums(d, t, current_week):
         return Auditorium.objects \
             .filter(id__in=ScheduleSubject.subjects.filter(day=d.id, time_id=t.id,
-                                                           week_interval=current_week)
+                                                           week_interval__in=[0, current_week])
                     .values_list('auditorium', flat=True)).order_by("classroom")
 
     @staticmethod
-    def get_reserved_auditorium(d, t):
+    def get_reserved_auditoriums(d, t):
         reserved = ReservedAuditorium.objects.select_related('auditorium').filter(day_id=d.id,
                                                                                   time_id=t.id)
         return reserved
 
     @classmethod
-    def get_free_auditorium(cls, d, t, current_week):
-        occupied_auds = cls.get_occupied_auditorium(d, t, current_week)
+    def get_free_auditoriums(cls, d, t, current_week):
+        occupied_auds = cls.get_occupied_auditoriums(d, t, current_week)
         reserved_auds = ReservedAuditorium.get_reserved_auditorium(d, t)
         return Auditorium.objects \
             .exclude(id__in=occupied_auds).exclude(id__in=reserved_auds).order_by("classroom")
