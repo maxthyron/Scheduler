@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY') or '!29r6nx1(uiy$l+0&1d@dbw98rqw2^u3ka
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['fa-scheduler.herokuappp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 # Application definition
 
