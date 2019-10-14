@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import django_heroku
+from decouple import config
+import dj_database_url
 
 # Build paths inside the dbproject like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -76,16 +78,22 @@ WSGI_APPLICATION = 'dbproject.wsgi.application'
 
 
 DATABASES = {
-    'default': {
-        'ENGINE':       'django.db.backends.postgresql_psycopg2',
-        'NAME':         'schedule_db',
-        'USER':         'scheduler_usr',
-        'PASSWORD':     'Postgres08',
-        'HOST':         '127.0.0.1',
-        'CONN_MAX_AGE': 500,
-        'PORT':         '5432',
-        }
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+        )
     }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE':       'django.db.backends.postgresql_psycopg2',
+#         'NAME':         'schedule_db',
+#         'USER':         'scheduler_usr',
+#         'PASSWORD':     'Postgres08',
+#         'HOST':         '127.0.0.1',
+#         'CONN_MAX_AGE': 500,
+#         'PORT':         '5432',
+#         }
+#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -127,7 +135,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     ]
-
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
