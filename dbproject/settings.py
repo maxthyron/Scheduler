@@ -76,15 +76,22 @@ WSGI_APPLICATION = 'dbproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE':       'django.db.backends.postgresql_psycopg2',
-        'NAME':         'schedule_db',
-        'USER':         'scheduler_usr',
-        'PASSWORD':     'Postgres08',
-        'HOST':         '127.0.0.1',
-        'CONN_MAX_AGE': 500,
-        'PORT':         '5432',
+        'ENGINE':       'django.db.backends.sqlite3',
+        'NAME':         os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE':       'django.db.backends.postgresql_psycopg2',
+#         'NAME':         'schedule_db',
+#         'USER':         'scheduler_usr',
+#         'PASSWORD':     'Postgres08',
+#         'HOST':         '127.0.0.1',
+#         'CONN_MAX_AGE': 500,
+#         'PORT':         '5432',
+#         }
+#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -127,6 +134,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     ]
 
+
+LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
