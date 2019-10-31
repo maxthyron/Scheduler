@@ -1,6 +1,6 @@
 from api.groups import unload_all_groups
 from api.logger import LogMachine as log
-from api.day import parse_row, create_schedule_timetable, test
+from api.day import parse_row, create_schedule_timetable, create_schedule_timetable_csv
 import json
 import requests
 from api import configs
@@ -58,9 +58,10 @@ def read_json(outdir):
 
 
 def main():
-    get_all_groups()
+    # get_all_groups()
     # read_group_html('src/')
     log.info('Done!')
+    create_schedule_timetable_csv('src/')
 
 
 if __name__ == "__main__":

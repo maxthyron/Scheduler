@@ -12,12 +12,22 @@ from api import configs
 from django.db import utils
 
 import re
+import csv
 
-
-def test():
-    a = Auditorium.objects.get(id='218л')
-    print(a.schedulesubject_set(manager='subjects').all())
-
+def create_schedule_timetable_csv(outdir):
+    with open(outdir + "time_table.csv", "r") as time_table:
+        reader = csv.DictReader(time_table)
+        for row in reader:
+            schedule_time = ScheduleTime(id=row['id'], start_time=row['start_time'],
+                                         end_time=row['end_time'])
+            schedule_time.save()
+    print('Time table added')
+    with open(outdir + "day_table.csv", "r") as day_table:
+        reader = csv.DictReader(day_table)
+        for row in reader:
+            d = Day(id=row['id'], name=row['name'], name_short=row['name_short'])
+            d.save()
+    print('Day table added')
 
 def create_schedule_timetable(outdir):
     with open(outdir + "schedule.html", "r") as page_html:
