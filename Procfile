@@ -1,3 +1,3 @@
-release: python manage.py migrate
-release: python run.py
+release: python manage.py migrate && python run.py
+
 web: gunicorn dbproject.wsgi
