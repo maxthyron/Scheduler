@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
-from schedule.models import ScheduleSubject, Auditorium
-from api.main import get_all_groups
+from schedule.models import ScheduleSubject
+from run import get_all_groups
 
 
 class Command(BaseCommand):
