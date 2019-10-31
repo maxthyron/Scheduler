@@ -58,10 +58,9 @@ def read_json(outdir):
 
 
 def main():
-    # get_all_groups()
-    # read_group_html('src/')
+    create_schedule_timetable_csv('api/src/')
+    get_all_groups()
     log.info('Done!')
-    create_schedule_timetable_csv('src/')
 
 
 if __name__ == "__main__":

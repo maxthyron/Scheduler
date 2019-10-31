@@ -14,6 +14,7 @@ from django.db import utils
 import re
 import csv
 
+
 def create_schedule_timetable_csv(outdir):
     with open(outdir + "time_table.csv", "r") as time_table:
         reader = csv.DictReader(time_table)
@@ -28,6 +29,7 @@ def create_schedule_timetable_csv(outdir):
             d = Day(id=row['id'], name=row['name'], name_short=row['name_short'])
             d.save()
     print('Day table added')
+
 
 def create_schedule_timetable(outdir):
     with open(outdir + "schedule.html", "r") as page_html:
