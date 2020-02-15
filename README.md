@@ -116,11 +116,13 @@
     
     res: {data: {error: ""}}
     
+
 Получение таблицы данных:
 - GET -> url/api/table
 
     res: {data: {JSON object}, error: ""}
     
+
 Регистрация нового пользователя:
 - POST -> url/api/users
 
@@ -128,11 +130,13 @@
     
     res: {data: {error: ""}}
     
+
 Получение данных о аудитории по id:
 - GET -> url/api/classes/class_id?day=""&time=""
 
     res: {data: {form: "occupied/not_occupied/occupied_by_user", username: "", subject: {name: "", type: ""}, groups: ["", "", ...], error: ""}}
     
+
 Резервирование аудитории
 - POST -> url/api/classes/class_id/reserve
 
@@ -169,9 +173,6 @@ Backend класс: App
 
     Backend, DB
 
-- Рыжкова Евгения @rek16u676
-
-    HTML, CSS, Bootstrap, Тестирование
 
 ## CI
 
