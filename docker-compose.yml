@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  scheduler-backend:
+    container_name: scheduler-backend
+    build: ./backend
+    command: gunicorn --bind :8000 dbproject.wsgi:application
+    networks:
+      - nginx-network
+      - postgres-network
+    depends_on:
+      - scheduler-db
+
+  nginx:
+    container_name: scheduler-nginx
+    image: nginx:latest
+    ports:
+      - "8000:80"
+    volumes:
+      - ./backend/config/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - scheduler-backend
+    networks:
+      - nginx-network
+    expose:
+      - "8000"
+
+  scheduler-db:
+    container_name: scheduler-db
+    image: postgres:latest
+    env_file:
+      - backend/config/postgres.env
+    networks:
+      - postgres-network
+
+networks:
+  nginx-network:
+    driver: bridge
+  postgres-network:
+    driver: bridge
+
+# docker-compose build && docker-compose run --rm scheduler-backend /bin/bash -c "cd backend; python manage.py migrate; python run.py"

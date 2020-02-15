@@ -1,0 +1,32 @@
+stages:
+    - build
+    - test
+    - deploy
+    
+build:
+    image: node:lts-alpine
+    stage: build
+    before_script:
+        - cd project/vue-spa
+    script:
+        - npm install --save-dev mini-css-extract-plugin
+        - npm run build
+        
+test:
+    image: node:lts-alpine
+    stage: test
+    before_script:
+        - cd project/vue-spa
+    script:
+        - npm install --save-dev mini-css-extract-plugin
+        - npm run test
+    
+deploy:
+  image: alpine
+  stage: deploy
+  script:
+    - apk add --no-cache rsync openssh
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
+    - chmod 600 ~/.ssh/id_dsa
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
