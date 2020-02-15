@@ -4,7 +4,8 @@ import dotenv
 import psycopg2
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-dotenv_file = os.path.join(BASE_DIR, os.getenv("CONF_DIR"), ".env")
+CONF_DIR = os.getenv("CONF_DIR") if "CONF_DIR" in os.environ else "config"
+dotenv_file = os.path.join(BASE_DIR, CONF_DIR, ".env")
 if os.path.isfile(dotenv_file):
     dotenv.load_dotenv(dotenv_file)
 
@@ -21,7 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'scheduler-app.apps.SchedulerAppConfig',
+    'schedulerapp.apps.SchedulerAppConfig',
 ]
 
 MIDDLEWARE = [

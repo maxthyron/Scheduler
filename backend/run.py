@@ -1,10 +1,10 @@
 import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dbproject.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "scheduler-project.settings")
 import django
 
 django.setup()
-from schedule.models import ScheduleSubject, Day
+from schedulerapp.models import ScheduleSubject, Day
 
 from bs4 import BeautifulSoup as bsoup
 import json
@@ -49,7 +49,7 @@ def get_all_groups():
     soup = bsoup(list_page_response.content, "lxml")
     days = Day.objects.all()
     for valid_group_code, url in unload_all_groups(soup):
-        log.info("Getting group({}) schedule page".format(valid_group_code))
+        log.attn("Getting group({}) schedule page".format(valid_group_code))
         get_one_group(url, valid_group_code, days)
         time.sleep(0.2)
 
@@ -60,7 +60,7 @@ def read_json(outdir):
 
     days = Day.objects.all().iterator()
     for group in schedule_json:
-        log.info("Getting group({}) schedule page".format(group["group"]))
+        log.attn("Getting group({}) schedule page".format(group["group"]))
         get_one_group(group["url"], group["group"], days)
 
 
