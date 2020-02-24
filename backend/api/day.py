@@ -1,4 +1,4 @@
-from schedule.models import ScheduleSubject, ScheduleTime, Auditorium, Day
+from scheduler_app.models import ScheduleSubject, ScheduleTime, Auditorium, Day
 from bs4 import BeautifulSoup as bsoup
 from api.logger import LogMachine as log
 from api import configs

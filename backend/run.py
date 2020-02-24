@@ -1,10 +1,10 @@
 import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "dbproject.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "scheduler_project.settings")
 import django
 
 django.setup()
-from schedule.models import ScheduleSubject, Day
+from scheduler_app.models import ScheduleSubject, Day
 
 from bs4 import BeautifulSoup as bsoup
 import json
