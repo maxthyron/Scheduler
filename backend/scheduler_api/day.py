@@ -1,7 +1,7 @@
 from scheduler_app.models import ScheduleSubject, ScheduleTime, Auditorium, Day
 from bs4 import BeautifulSoup as bsoup
-from api.logger import LogMachine as log
-from api import configs
+from scheduler_api.logger import LogMachine as log
+from scheduler_api import configs
 
 import re
 import csv

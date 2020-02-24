@@ -1,8 +1,8 @@
 import json
 import sys
 
-from api.logger import LogMachine as log
-from api import configs
+from scheduler_api.logger import LogMachine as log
+from scheduler_api import configs
 
 
 def group_code_formatter(group_url):

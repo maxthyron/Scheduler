@@ -11,10 +11,10 @@ import json
 import requests
 import dotenv
 
-from api.groups import unload_all_groups
-from api.logger import LogMachine as log
-from api.day import parse_row, create_schedule_timetable_csv
-from api import configs
+from scheduler_api.groups import unload_all_groups
+from scheduler_api.logger import LogMachine as log
+from scheduler_api.day import parse_row, create_schedule_timetable_csv
+from scheduler_api import configs
 import time
 
 
@@ -72,7 +72,7 @@ def main():
         dotenv.load_dotenv(dotenv_file)
     log.verbose = os.getenv("DEBUG")
 
-    create_schedule_timetable_csv("api/src/")
+    create_schedule_timetable_csv("scheduler_api/src/")
     get_all_groups()
     log.info("Done!")
 
