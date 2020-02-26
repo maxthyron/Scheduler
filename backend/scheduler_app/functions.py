@@ -5,7 +5,7 @@ import datetime
 import pytz
 import json
 
-from api import configs
+from scheduler_api import configs
 from .models import ScheduleTime, Day, User
 
 

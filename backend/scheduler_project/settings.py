@@ -12,8 +12,6 @@ if os.path.isfile(dotenv_file):
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", True)
 
-ALLOWED_HOSTS = []
-
 INSTALLED_APPS = [
     'corsheaders',
     'django.contrib.admin',
@@ -36,6 +34,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+ALLOWED_HOSTS = ["*"]
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'scheduler_project.urls'
 
