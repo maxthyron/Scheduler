@@ -3,16 +3,20 @@ import Vue from 'vue';
 
 const BACKEND_URL = process.env.VUE_APP_BACKEND_URL || 'http://127.0.0.1:8000';
 
+const router = axios.create({
+  baseURL: BACKEND_URL
+});
+
 export const requestsMixin = Vue.mixin({
   methods: {
     getDaysTable () {
-      return axios.get(`${BACKEND_URL}/api/schedule_days`);
+      return router.get('/api/schedule_days');
     },
     getTimesTable () {
-      return axios.get(`${BACKEND_URL}/api/schedule_times`);
+      return router.get('/api/schedule_times');
     },
     getAuditoriumsTable (dayId, timeId) {
-      return axios.get(`${BACKEND_URL}/api/table`, {
+      return router.get('/api/table', {
         params: {
           dayId,
           timeId
