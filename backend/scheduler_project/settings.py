@@ -35,8 +35,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ALLOWED_HOSTS = ["*"]
-CORS_ORIGIN_ALLOW_ALL = True
+ALLOWED_HOSTS = ["192.168.50.239"]
+CORS_ORIGIN_WHITELIST = [
+    "http://192.168.50.239:5000",
+    "http://localhost:5000",
+    "http://127.0.0.1:5000"
+]
 
 ROOT_URLCONF = 'scheduler_project.urls'
 
