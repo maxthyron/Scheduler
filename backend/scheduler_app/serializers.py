@@ -40,7 +40,10 @@ class TimeTableSerializer(serializers.Serializer):
     scheduled = AuditoriumSerializer(many=True)
 
 
+class AuditoriumsSerializer(serializers.Serializer):
+    free = AuditoriumSerializer(many=True)
+
+
 class DayTableSerializer(serializers.Serializer):
     schedule_day = DaySerializer()
     time_tables = TimeTableSerializer(many=True)
-

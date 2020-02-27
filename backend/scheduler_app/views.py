@@ -9,6 +9,7 @@ from .serializers import *
 from . import functions
 
 TimeTable = namedtuple('TimeTable', ('schedule_time', 'free', 'reserved', 'scheduled'))
+AuditoriumsTable = namedtuple('AuditoriumsTable', ('free', 'reserved'))
 DayTable = namedtuple('DayTable', ('schedule_day', 'time_tables'))
 
 
@@ -29,21 +30,16 @@ class TimeViewSet(viewsets.ViewSet):
 @api_view(['GET'])
 def table(request):
     if request.method == "GET":
-        days = Day.objects.all()
-        schedule_times = ScheduleTime.objects.all()
+        schedule_time_id = request.query_params.get('timeId')
+        schedule_day_id = request.query_params.get('dayId')
+        d = Day.objects.get(id=schedule_day_id)
+        t = ScheduleTime.objects.get(id=schedule_time_id)
         current_week = functions.get_current_week()
         now = timezone.now()
-        day_tables = []
-        for d in days[:1]:
-            time_tables = []
-            for t in schedule_times[:1]:
-                reserved = ReservedAuditorium.get_reserved_auditoriums(d, t, now)
-                free = Auditorium.get_free_auditoriums(d, t, now, current_week)
-                scheduled = ScheduleSubject.get_scheduled_auditoriums(d, t, current_week)
 
-                time_table = TimeTable(schedule_time=t, free=free, scheduled=scheduled, reserved=reserved)
-                time_tables.append(time_table)
-            day_table = DayTable(schedule_day=d, time_tables=time_tables)
-            day_tables.append(day_table)
-        week_table_serializer = DayTableSerializer(day_tables, many=True)
-        return Response(week_table_serializer.data)
+        free = Auditorium.get_free_auditoriums(d, t, now, current_week)
+        auditoriums_serializer = AuditoriumSerializer(free, many=True)
+
+        return Response(auditoriums_serializer.data)
+
+
