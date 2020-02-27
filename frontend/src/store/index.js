@@ -1,16 +1,32 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import user from './user'
-import table from './table'
-import audit from './audit'
+import daysTable from './daysTable';
+import timesTable from './timesTable';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
+  state: {
+    error: null
+  },
+  mutations: {
+    setError (state, error) {
+      state.error = error
+    }
+  },
+  actions: {
+    gotError ({ commit }, error) {
+      commit('setError', error)
+    }
+  },
   modules: {
-    user,
-    table,
-    audit
+    daysTable,
+    timesTable
+  },
+  getters: {
+    getError (state) {
+      return state.error;
+    }
   }
 })
