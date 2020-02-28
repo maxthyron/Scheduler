@@ -1,16 +1,10 @@
 import os
 import dj_database_url
 
-from dotenv import load_dotenv
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-dotenv_file = os.path.join(BASE_DIR, ".env")
-if os.path.isfile(dotenv_file):
-    load_dotenv(dotenv_file)
-
 SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = os.getenv("DEBUG", True)
+DEBUG = os.getenv("DEBUG", "True") == "True"
 
 INSTALLED_APPS = [
     'corsheaders',
@@ -35,12 +29,19 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ALLOWED_HOSTS = ["192.168.50.239"]
+ALLOWED_HOSTS = ["192.168.50.239", "127.0.0.1"]
 CORS_ORIGIN_WHITELIST = [
     "http://192.168.50.239:5000",
+    "http://192.168.50.239:8000",
+    "http://192.168.50.239",
     "http://localhost:5000",
-    "http://127.0.0.1:5000"
+    "http://localhost:8000",
+    "http://localhost",
+    "http://127.0.0.1:8000",
+    "http://127.0.0.1:5000",
+    "http://127.0.0.1"
 ]
+CORS_URLS_REGEX = r'^/api/.*$'
 
 ROOT_URLCONF = 'scheduler_project.urls'
 
