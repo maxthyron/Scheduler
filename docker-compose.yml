@@ -4,26 +4,30 @@ services:
   scheduler-backend:
     container_name: scheduler-backend
     build: ./backend
-    command: gunicorn --access-logfile gunicorn.logs --bind :8000 scheduler_project.wsgi:application
+    command: gunicorn --access-logfile - --bind :8000 scheduler_project.wsgi:application
+    volumes:
+      - static_volume:/backend/static
     networks:
       - nginx-network
       - postgres-network
-    env_file:
-      - backend/.env.prod
+    environment:
+      - ENV_FILE=.env.prod
     depends_on:
       - scheduler-db
+    ports:
+      - "8000:8000"
 
   nginx:
     container_name: scheduler-nginx
     build: ./frontend
     ports:
-      - "8000:80"
+      - "8080:80"
     depends_on:
       - scheduler-backend
+    volumes:
+      - static_volume:/backend/static
     networks:
       - nginx-network
-    expose:
-      - "8000"
 
   scheduler-db:
     container_name: scheduler-db
@@ -38,3 +42,6 @@ networks:
     driver: bridge
   postgres-network:
     driver: bridge
+
+volumes:
+  static_volume:

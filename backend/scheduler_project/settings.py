@@ -29,17 +29,32 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ALLOWED_HOSTS = ["192.168.50.239", "127.0.0.1"]
+ALLOWED_HOSTS = ["192.168.50.239", "127.0.0.1", "172.22.0.1", "www.kakutopotto.works", "kakutopotto.works"]
 CORS_ORIGIN_WHITELIST = [
+    "http://192.168.50.239",
     "http://192.168.50.239:5000",
     "http://192.168.50.239:8000",
-    "http://192.168.50.239",
+    "http://192.168.50.239:8080",
+    "http://localhost",
     "http://localhost:5000",
     "http://localhost:8000",
-    "http://localhost",
-    "http://127.0.0.1:8000",
+    "http://localhost:8080",
+    "http://127.0.0.1",
     "http://127.0.0.1:5000",
-    "http://127.0.0.1"
+    "http://127.0.0.1:8000",
+    "http://127.0.0.1:8080",
+    "http://172.22.0.3",
+    "http://172.22.0.3:5000",
+    "http://172.22.0.3:8000",
+    "http://172.22.0.3:8080",
+    "http://www.kakutopotto.works",
+    "http://www.kakutopotto.works:5000",
+    "http://www.kakutopotto.works:8000",
+    "http://www.kakutopotto.works:8080",
+    "http://kakutopotto.works",
+    "http://kakutopotto.works:5000",
+    "http://kakutopotto.works:8000",
+    "http://kakutopotto.works:8080",
 ]
 CORS_URLS_REGEX = r'^/api/.*$'
 
@@ -91,3 +106,8 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+STATICFILES_DIRS = (
+
+)

@@ -4,6 +4,7 @@ nginx-cache/**
 
 # Django staticfiles
 staticfiles
+static
 
 # Idea / Pycharm
 .idea
