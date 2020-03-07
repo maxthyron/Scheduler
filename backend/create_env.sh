@@ -1,7 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 if [[ -z "${CONF_DIR}" ]]; then
   CONF_DIR=""
 fi
+
+POSTGRES_DB=scheduler_db
+POSTGRES_USER=scheduler_user
+POSTGRES_PASSWORD=Scheduler08
+DEPLOY_ENV=True
 
 if [[ -z "${DEPLOY_ENV}" ]]; then
   read -rp "Enter the name of database: " DB

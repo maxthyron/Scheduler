@@ -29,12 +29,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ALLOWED_HOSTS = ["192.168.50.239", "127.0.0.1", "172.22.0.1", "www.kakutopotto.works", "kakutopotto.works"]
+ALLOWED_HOSTS = ["192.168.50.83", "127.0.0.1", "172.22.0.1", "www.kakutopotto.works", "kakutopotto.works"]
 CORS_ORIGIN_WHITELIST = [
-    "http://192.168.50.239",
-    "http://192.168.50.239:5000",
-    "http://192.168.50.239:8000",
-    "http://192.168.50.239:8080",
+    "http://192.168.50.83",
+    "http://192.168.50.83:5000",
+    "http://192.168.50.83:8000",
+    "http://192.168.50.83:8080",
     "http://localhost",
     "http://localhost:5000",
     "http://localhost:8000",
