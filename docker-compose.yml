@@ -17,7 +17,7 @@ services:
     ports:
       - "8000:8000"
 
-  nginx:
+  scheduler-nginx:
     container_name: scheduler-nginx
     build: ./frontend
     ports:
