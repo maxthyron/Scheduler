@@ -21,15 +21,15 @@ services:
     container_name: scheduler-nginx
     build: ./frontend
     ports:
-      - "8080:80"
+      - "80:80"
+      - "443:443"
     depends_on:
       - scheduler-backend
     volumes:
       - static_volume:/backend/static
+      - certs:/app/ssl:ro
     networks:
       - nginx-network
-    expose:
-      - "8080"
 
   scheduler-db:
     container_name: scheduler-db
@@ -47,3 +47,4 @@ networks:
 
 volumes:
   static_volume:
+  certs:
