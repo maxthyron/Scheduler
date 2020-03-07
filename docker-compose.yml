@@ -28,6 +28,8 @@ services:
       - static_volume:/backend/static
     networks:
       - nginx-network
+    expose:
+      - "8080"
 
   scheduler-db:
     container_name: scheduler-db
