@@ -16,6 +16,7 @@ services:
       - scheduler-db
     ports:
       - "8000:8000"
+    restart: always
 
   scheduler-nginx:
     container_name: scheduler-nginx
@@ -30,6 +31,7 @@ services:
       - certs:/app/ssl:ro
     networks:
       - nginx-network
+    restart: always
 
   scheduler-db:
     container_name: scheduler-db
@@ -38,6 +40,7 @@ services:
       - backend/postgres.env
     networks:
       - postgres-network
+    restart: always
 
 networks:
   nginx-network:
